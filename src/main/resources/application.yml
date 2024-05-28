@@ -1,0 +1,14 @@
+server:
+  port: 9090
+  
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/manage_church
+    username: postgres
+    password: rza75321
+    #driver-class-name: org.postgresql.Driver
+  jpa:
+    #database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
