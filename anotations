@@ -1,0 +1,26 @@
+Resumo da aula "Java e Spring: camadas, ORM, DTO
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+" https://www.youtube.com/watch?v=7HvOBCqHWvA / Professor Nélio Alves
+
+Responsabilidades:
+    - Componentes: (São ojetos que executam operações)
+        - RestController - Responde interação do usuário;
+        - Service - Realiza operações de negócio;
+        - Repository - Realiza operações "individuais" de acesso ao BD;
+    
+    - Data Transfer Object (DTO)
+        - Objeto usado para trafegar dados entre as camadas RestController e Service
+    - Entity / ORM
+        - Objetos que tem relação com o banco de dados e estão participando de uma transação, são monitorados pela JPA(Java Persistence API)
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+Aula Padrão camadas e exceções em Java web Spring Boot - Aulão #012
+
+https://www.youtube.com/watch?v=MAv7xgnSD-s&t=734s
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+ 
+

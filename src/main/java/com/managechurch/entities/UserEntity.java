@@ -1,4 +1,6 @@
-package com.managechurch.entities.users;
+package com.managechurch.entities;
+
+import com.managechurch.dto.UserDTO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,6 +26,23 @@ public class UserEntity {
 
     @Column(name = "password", nullable = false, length = 30)
     private String password;
+
+    public UserEntity(Integer id, String name, String login, String password) {
+        this.id = id;
+        this.name = name;
+        this.login = login;
+        this.password = password;
+    }
+    public UserEntity(UserDTO userDTO) {
+        this.id = userDTO.getId();
+        this.name = userDTO.getName();
+        this.login = userDTO.getLogin();
+        this.password = userDTO.getPassword();
+    }
+
+    public UserEntity() {
+
+    }
 
     public Integer getId() {
         return id;
