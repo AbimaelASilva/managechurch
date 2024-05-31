@@ -8,8 +8,8 @@ import com.managechurch.entities.UserEntity;
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 
-    // UserEntity findByName(String name);
+    UserEntity findByName(String name);
 
-    // UserEntity findByLogin(String login);
+    UserEntity findByLogin(String login);
 
 }

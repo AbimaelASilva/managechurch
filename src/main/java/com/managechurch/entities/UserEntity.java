@@ -2,6 +2,12 @@ package com.managechurch.entities;
 
 import com.managechurch.dto.UserDTO;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.hibernate.annotations.DynamicInsert;
+
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,6 +16,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
+@DynamicInsert
 @Table(name = "users", schema = "public")
 public class UserEntity {
 
@@ -18,13 +25,13 @@ public class UserEntity {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "name", nullable = false, length = 60)
+    @Column(name = "name",  length = 60)
     private String name;
 
-    @Column(name = "login", nullable = false, length = 30, unique = true)
+    @Column(name = "login",  length = 30, unique = true)
     private String login;
 
-    @Column(name = "password", nullable = false, length = 30)
+    @Column(name = "password",  length = 30)
     private String password;
 
     public UserEntity(Integer id, String name, String login, String password) {
@@ -33,6 +40,7 @@ public class UserEntity {
         this.login = login;
         this.password = password;
     }
+
     public UserEntity(UserDTO userDTO) {
         this.id = userDTO.getId();
         this.name = userDTO.getName();
@@ -74,6 +82,17 @@ public class UserEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<UserDTO> convertToDtoList(List<UserEntity> userEntityList) {
+
+        List<UserDTO> userDtos = userEntityList.stream()
+                .map(userEntity -> new UserDTO(userEntity.getId(), userEntity.getName(), userEntity.getLogin(),
+                        userEntity.getPassword()))
+                .collect(Collectors.toList());
+
+        return userDtos;
+
     }
 
 }
