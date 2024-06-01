@@ -32,8 +32,7 @@ public class UserService {
             UserEntity userEntitySaved = userRepository.save(userEntityToSave);
             return new ResponseDTO(sucess, userEntitySaved);
         } catch (DataIntegrityViolationException e) {
-            throw new DataItegrityException(
-                    "Não foi possível salvar a informação, certifique-se de que informou todos os dados corretamente.");
+            throw new DataItegrityException();
         }
     }
 
@@ -72,14 +71,23 @@ public class UserService {
 
         if (optionalUser.isPresent()) {
             UserEntity userEntityToSave = optionalUser.get();
-            userMapper.updateUserFromDto(user, userEntityToSave);
+            userMapper.updateEntityFromDto(user, userEntityToSave);
             UserEntity savedUser = userRepository.save(userEntityToSave);
             return new ResponseDTO(sucess, savedUser);
         } else {
             throw new DataItegrityException(
                     "Não foi possível atualizar os dados do usuário, certifique-se de que informou todos os dados corretamente.");
         }
+    }
 
+    public ResponseDTO delete(Integer id) {
+        try {
+            userRepository.deleteById(id);
+            return new ResponseDTO("SUCCESS", "Usuário deletado com sucesso!");
+        } catch (Exception e) {
+            return new ResponseDTO("ERROR",
+                    new EntityNotFoundException("Não foi possível deletar o usuario com o id: " + id));
+        }
     }
 
 }

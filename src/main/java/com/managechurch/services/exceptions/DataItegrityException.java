@@ -7,4 +7,8 @@ public class DataItegrityException extends RuntimeException {
         super(message);
     }
 
+    public DataItegrityException() {
+        super("Não foi possível salvar a informação, certifique-se de que informou todos os dados corretamente.");
+    }
+
 }

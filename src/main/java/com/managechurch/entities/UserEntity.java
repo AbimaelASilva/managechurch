@@ -87,8 +87,7 @@ public class UserEntity {
     public List<UserDTO> convertToDtoList(List<UserEntity> userEntityList) {
 
         List<UserDTO> userDtos = userEntityList.stream()
-                .map(userEntity -> new UserDTO(userEntity.getId(), userEntity.getName(), userEntity.getLogin(),
-                        userEntity.getPassword()))
+                .map(userEntity -> new UserDTO(userEntity))
                 .collect(Collectors.toList());
 
         return userDtos;

@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.managechurch.dto.ResponseDTO;
-import com.managechurch.dto.UserDTO;
-import com.managechurch.services.UserService;
+import com.managechurch.dto.MinistryDTO;
+import com.managechurch.services.MinistryService;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,48 +19,47 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
-@RequestMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
-public class UserController {
+@RequestMapping(value = "/ministry", produces = MediaType.APPLICATION_JSON_VALUE)
+public class MinistryController {
 
     @Autowired
-    private UserService userService;
+    private MinistryService ministryService;
 
     @PostMapping
-    public ResponseEntity<ResponseDTO> create(@RequestBody UserDTO userDAO) {
-        ResponseDTO dto = userService.create(userDAO);
+    public ResponseEntity<ResponseDTO> create(@RequestBody MinistryDTO ministryDAO) {
+        ResponseDTO dto = ministryService.create(ministryDAO);
         return ResponseEntity.ok().body(dto);
     }
 
     @GetMapping(value = "/{id}") // achamada do EP deve ser assim: // /users/5
     public ResponseEntity<ResponseDTO> getById(@PathVariable("id") Integer id) {
-        ResponseDTO dto = userService.findById(id);
+        ResponseDTO dto = ministryService.findById(id);
         return ResponseEntity.ok().body(dto);
     }
 
     @GetMapping()
     public ResponseEntity<ResponseDTO> getAll() {
-        ResponseDTO usersList = userService.findAll();
-        return ResponseEntity.ok().body(usersList);
+        ResponseDTO ministryList = ministryService.findAll();
+        return ResponseEntity.ok().body(ministryList);
     }
 
-    @GetMapping("/findUser") // achamada do EP deve ser assim: /users/findUser?type=LOGIN&value=abimael
-    public ResponseEntity<ResponseDTO> findUser(@RequestParam("type") String type,
+    @GetMapping("/findMinistry") // achamada do EP deve ser assim: /users/findUser?type=LOGIN&value=abimael
+    public ResponseEntity<ResponseDTO> findMinistry(@RequestParam("type") String type,
             @RequestParam("value") String value) { // tyes = // LOGIN, NAME
-        ResponseDTO dto = userService.findBy(type, value);
+        ResponseDTO dto = ministryService.findBy(type, value);
         return ResponseEntity.ok().body(dto);
     }
 
     @PutMapping
-    public ResponseEntity<ResponseDTO> update(@RequestBody UserDTO userDAO) {
-        ResponseDTO dto = userService.update(userDAO);
+    public ResponseEntity<ResponseDTO> update(@RequestBody MinistryDTO ministryDTO) {
+        ResponseDTO dto = ministryService.update(ministryDTO);
         return ResponseEntity.ok().body(dto);
     }
 
     @DeleteMapping(value = "/{id}") // achamada do EP deve ser assim: // /users/5
     public ResponseEntity<ResponseDTO> delete(@PathVariable("id") Integer id) {
-        ResponseDTO dto = userService.delete(id);
+        ResponseDTO dto = ministryService.delete(id);
         return ResponseEntity.ok().body(dto);
     }
-
 
 }

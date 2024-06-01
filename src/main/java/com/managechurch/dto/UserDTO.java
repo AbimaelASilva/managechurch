@@ -4,6 +4,8 @@ import com.managechurch.entities.UserEntity;
 
 public class UserDTO {
 
+    //Criei o body da requisição POST para insominica com as propiedades e valores ficticios:
+
     private Integer id;
 
     private String name;
