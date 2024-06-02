@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.managechurch.dto.ResponseDTO;
 import com.managechurch.dto.UserDTO;
 import com.managechurch.entities.UserEntity;
+import com.managechurch.helpers.ResponseStatusEnum;
 import com.managechurch.mapper.UserMapper;
 import com.managechurch.repositories.UserRepository;
 import com.managechurch.services.exceptions.DataItegrityException;
@@ -24,13 +25,13 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
-    final String sucess = "SUCCESS";
+
 
     public ResponseDTO create(UserDTO user) {
         try {
             UserEntity userEntityToSave = new UserEntity(user);
             UserEntity userEntitySaved = userRepository.save(userEntityToSave);
-            return new ResponseDTO(sucess, userEntitySaved);
+            return new ResponseDTO(ResponseStatusEnum.SUCCESS.name(), userEntitySaved);
         } catch (DataIntegrityViolationException e) {
             throw new DataItegrityException();
         }
@@ -51,7 +52,7 @@ public class UserService {
                 userEntity = userRepository.findByName(value);
             }
 
-            return new ResponseDTO(sucess, userEntity);
+            return new ResponseDTO(ResponseStatusEnum.SUCCESS.name(), userEntity);
         } catch (Exception e) {
             throw new EntityNotFoundException("Não foi encontrado o usuario com o " + type + "  " + value);
         }
@@ -60,7 +61,7 @@ public class UserService {
     public ResponseDTO findAll() {
         List<UserEntity> userEntity = userRepository.findAll();
         List<UserDTO> list = new UserEntity().convertToDtoList(userEntity);
-        return new ResponseDTO(sucess, list);
+        return new ResponseDTO(ResponseStatusEnum.SUCCESS.name(), list);
     }
 
     // Tutorial abrodando o uso da "Anotação @Mapper"
@@ -73,7 +74,7 @@ public class UserService {
             UserEntity userEntityToSave = optionalUser.get();
             userMapper.updateEntityFromDto(user, userEntityToSave);
             UserEntity savedUser = userRepository.save(userEntityToSave);
-            return new ResponseDTO(sucess, savedUser);
+            return new ResponseDTO(ResponseStatusEnum.SUCCESS.name(), savedUser);
         } else {
             throw new DataItegrityException(
                     "Não foi possível atualizar os dados do usuário, certifique-se de que informou todos os dados corretamente.");
@@ -83,7 +84,7 @@ public class UserService {
     public ResponseDTO delete(Integer id) {
         try {
             userRepository.deleteById(id);
-            return new ResponseDTO("SUCCESS", "Usuário deletado com sucesso!");
+            return new ResponseDTO("SUCCESS", "Usuário deletado com ResponseStatusEnum.SUCCESS.name()o!");
         } catch (Exception e) {
             return new ResponseDTO("ERROR",
                     new EntityNotFoundException("Não foi possível deletar o usuario com o id: " + id));

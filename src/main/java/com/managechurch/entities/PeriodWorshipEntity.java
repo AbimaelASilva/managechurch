@@ -5,7 +5,8 @@ import java.util.stream.Collectors;
 
 import org.hibernate.annotations.DynamicInsert;
 
-import com.managechurch.dto.MinistryDTO;
+import com.managechurch.dto.ItemWorshipDTO;
+import com.managechurch.dto.PeriodWorshipDTO;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -32,10 +33,8 @@ public class PeriodWorshipEntity {
     @Column(name = "description", length = 256)
     private String description;
 
-   // @OneToMany(mappedBy = "periodsWorship", cascade = CascadeType.ALL, orphanRemoval = true)
-    @OneToMany( cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ItemWorshipEntity> itemsWorshipEntity;
-
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ItemWorshipEntity> itemsWorship;
 
     public PeriodWorshipEntity() {
     }
@@ -46,10 +45,11 @@ public class PeriodWorshipEntity {
         this.description = description;
     }
 
-    public PeriodWorshipEntity(MinistryDTO userDTO) {
-        this.id = userDTO.getId();
-        this.name = userDTO.getName();
-        this.description = userDTO.getDescription();
+    public PeriodWorshipEntity(PeriodWorshipDTO periodWorshipDTO) {
+        this.id = periodWorshipDTO.getId();
+        this.name = periodWorshipDTO.getName();
+        this.description = periodWorshipDTO.getDescription();
+        this.itemsWorship = convertDtoToEntityList(periodWorshipDTO.getItemsWorship()) ;
 
     }
 
@@ -78,22 +78,29 @@ public class PeriodWorshipEntity {
     }
 
     public List<ItemWorshipEntity> getItems() {
-        return itemsWorshipEntity;
+        return itemsWorship;
     }
 
     public void setItems(List<ItemWorshipEntity> items) {
-        this.itemsWorshipEntity = items;
+        this.itemsWorship = items;
     }
 
-    public List<MinistryDTO> convertToDtoList(List<MinistryEntity> ministriesEntityList) {
-
-        List<MinistryDTO> ministryDtos = ministriesEntityList.stream()
-                // .map(ministryEntity -> new MinistryDTO(ministryEntity)) ==
-                // .map(MinistryDTO::new)
-                .map(MinistryDTO::new).collect(Collectors.toList());
-
+    public List<PeriodWorshipDTO> convertPeriodToDtoList(List<PeriodWorshipEntity> list) {
+        List<PeriodWorshipDTO> ministryDtos = list.stream()
+                .map(PeriodWorshipDTO::new).collect(Collectors.toList());
         return ministryDtos;
+    }
 
+    public List<ItemWorshipDTO> convertItemsToDtoList(List<ItemWorshipEntity> list) {
+        List<ItemWorshipDTO> itemsDtos = list.stream()
+                .map(ItemWorshipDTO::new).collect(Collectors.toList());
+        return itemsDtos;
+    }
+
+    public List<ItemWorshipEntity> convertDtoToEntityList(List<ItemWorshipDTO> list) {
+        List<ItemWorshipEntity> itemsDtos = list.stream()
+                .map(ItemWorshipEntity::new).collect(Collectors.toList());
+        return itemsDtos;
     }
 
 }

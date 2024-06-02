@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.managechurch.dto.ResponseDTO;
 import com.managechurch.dto.MinistryDTO;
 import com.managechurch.entities.MinistryEntity;
+import com.managechurch.helpers.ResponseStatusEnum;
 import com.managechurch.mapper.MinistryMapper;
 import com.managechurch.repositories.MinistryRepository;
 import com.managechurch.services.exceptions.DataItegrityException;
@@ -24,13 +25,11 @@ public class MinistryService {
     @Autowired
     private MinistryMapper mapperDtoEntity;
 
-    final String sucess = "SUCCESS";
-
     public ResponseDTO create(MinistryDTO ministry) {
         try {
             MinistryEntity ministryEntityToSave = new MinistryEntity(ministry);
             MinistryEntity ministryEntitySaved = ministryRepository.save(ministryEntityToSave);
-            return new ResponseDTO(sucess, ministryEntitySaved);
+            return new ResponseDTO(ResponseStatusEnum.SUCCESS.name(), ministryEntitySaved);
         } catch (DataIntegrityViolationException e) {
             throw new DataItegrityException();
         }
@@ -46,7 +45,7 @@ public class MinistryService {
         try {
             MinistryEntity ministryEntity = ministryRepository.findByName(value);
 
-            return new ResponseDTO(sucess, ministryEntity);
+            return new ResponseDTO(ResponseStatusEnum.SUCCESS.name(), ministryEntity);
         } catch (Exception e) {
             throw new EntityNotFoundException("Não foi encontrado o ministério com o " + type + "  " + value);
         }
@@ -55,7 +54,7 @@ public class MinistryService {
     public ResponseDTO findAll() {
         List<MinistryEntity> ministryEntities = ministryRepository.findAll();
         List<MinistryDTO> list = new MinistryEntity().convertToDtoList(ministryEntities);
-        return new ResponseDTO(sucess, list);
+        return new ResponseDTO(ResponseStatusEnum.SUCCESS.name(), list);
     }
 
     // Tutorial abrodando o uso da "Anotação @Mapper"
@@ -67,7 +66,7 @@ public class MinistryService {
             MinistryEntity ministryEntityToSave = optionalMinistry.get();
             mapperDtoEntity.updateEntityFromDto(ministry, ministryEntityToSave);
             MinistryEntity savedMinistry = ministryRepository.save(ministryEntityToSave);
-            return new ResponseDTO(sucess, savedMinistry);
+            return new ResponseDTO(ResponseStatusEnum.SUCCESS.name(), savedMinistry);
         } else {
             throw new DataItegrityException(
                     "Não foi possível atualizar os dados do Ministério, certifique-se de que informou todos os dados corretamente.");
@@ -77,7 +76,7 @@ public class MinistryService {
     public ResponseDTO delete(Integer id) {
         try {
             ministryRepository.deleteById(id);
-            return new ResponseDTO("SUCCESS", "Ministério deletado com sucesso!");
+            return new ResponseDTO("SUCCESS", "Ministério deletado com ResponseStatusEnum.SUCCESS.name()o!");
         } catch (Exception e) {
             return new ResponseDTO("ERROR",
                     new EntityNotFoundException("Não foi possível deletar o ministério com o id: " + id));

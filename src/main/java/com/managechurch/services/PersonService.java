@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.managechurch.dto.ResponseDTO;
 import com.managechurch.dto.PersonDTO;
 import com.managechurch.entities.PersonEntity;
+import com.managechurch.helpers.ResponseStatusEnum;
 import com.managechurch.mapper.PersonMapper;
 import com.managechurch.repositories.PersonRepository;
 import com.managechurch.services.exceptions.DataItegrityException;
@@ -24,13 +25,11 @@ public class PersonService {
     @Autowired
     private PersonMapper personMapper;
 
-    final String success = "SUCCESS";
-
-    public ResponseDTO create(PersonDTO person) {
+      public ResponseDTO create(PersonDTO person) {
         try {
             PersonEntity personEntityToSave = new PersonEntity(person);
             PersonEntity personEntitySaved = personRepository.save(personEntityToSave);
-            return new ResponseDTO(success, personEntitySaved);
+            return new ResponseDTO(ResponseStatusEnum.SUCCESS.name(), personEntitySaved);
         } catch (DataIntegrityViolationException e) {
             throw new DataItegrityException();
         }
@@ -39,7 +38,7 @@ public class PersonService {
     public ResponseDTO findById(Integer id) {
         PersonEntity personEntity = personRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Não foi encontrada a pessoa com o id: " + id));
-        return new ResponseDTO(success, personEntity);
+        return new ResponseDTO(ResponseStatusEnum.SUCCESS.name(), personEntity);
     }
 
     public ResponseDTO findBy(String type, String value) {
@@ -51,7 +50,7 @@ public class PersonService {
                 personEntity = personRepository.findByName(value);
             }
 
-            return new ResponseDTO(success, personEntity);
+            return new ResponseDTO(ResponseStatusEnum.SUCCESS.name(), personEntity);
         } catch (Exception e) {
             throw new EntityNotFoundException("Não foi encontrada a pessoa com o " + type + " " + value);
         }
@@ -60,7 +59,7 @@ public class PersonService {
     public ResponseDTO findAll() {
         List<PersonEntity> personEntities = personRepository.findAll();
         List<PersonDTO> list =  new PersonEntity().convertToDtoList(personEntities);
-        return new ResponseDTO(success, list);
+        return new ResponseDTO(ResponseStatusEnum.SUCCESS.name(), list);
     }
 
     public ResponseDTO update(PersonDTO person) {
@@ -70,7 +69,7 @@ public class PersonService {
             PersonEntity personEntityToSave = optionalPerson.get();
             personMapper.updateEntityFromDto(person, personEntityToSave);
             PersonEntity savedPerson = personRepository.save(personEntityToSave);
-            return new ResponseDTO(success, savedPerson);
+            return new ResponseDTO(ResponseStatusEnum.SUCCESS.name(), savedPerson);
         } else {
             throw new DataItegrityException(
                     "Não foi possível atualizar os dados da pessoa, certifique-se de que informou todos os dados corretamente.");
@@ -80,7 +79,7 @@ public class PersonService {
     public ResponseDTO delete(Integer id) {
         try {
             personRepository.deleteById(id);
-            return new ResponseDTO(success, "Pessoa deletada com sucesso!");
+            return new ResponseDTO(ResponseStatusEnum.SUCCESS.name(), "Pessoa deletada com sucesso!");
         } catch (Exception e) {
             return new ResponseDTO("ERROR",
                     new EntityNotFoundException("Não foi possível deletar a pessoa com o id: " + id));
