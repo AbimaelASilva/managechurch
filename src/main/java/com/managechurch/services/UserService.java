@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.managechurch.dto.ResponseDTO;
 import com.managechurch.dto.UserDTO;
 import com.managechurch.entities.UserEntity;
-import com.managechurch.helpers.ResponseStatusEnum;
+import com.managechurch.helpers.enums.ResponseStatusEnum;
 import com.managechurch.mapper.UserMapper;
 import com.managechurch.repositories.UserRepository;
 import com.managechurch.services.exceptions.DataItegrityException;

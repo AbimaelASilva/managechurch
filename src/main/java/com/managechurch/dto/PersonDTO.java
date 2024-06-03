@@ -3,7 +3,8 @@ package com.managechurch.dto;
 import java.util.Date;
 
 import com.managechurch.entities.PersonEntity;
-import com.managechurch.helpers.GenderEnum;
+import com.managechurch.helpers.enums.GenderEnum;
+import com.managechurch.helpers.enums.PersonStatusEnum;
 
 public class PersonDTO {
 
@@ -16,6 +17,8 @@ public class PersonDTO {
     private Date birthDate;
 
     private GenderEnum gender;
+
+    private PersonStatusEnum personStatusEnum;
 
     private String phone;
 
@@ -34,6 +37,7 @@ public class PersonDTO {
         this.phone = personEntity.getPhone();
         this.email = personEntity.getEmail();
         this.isActive = personEntity.getIsActive();
+        this.personStatusEnum = personEntity.getPersonStatusEnum();
     }
 
     // Getters and Setters
@@ -91,5 +95,13 @@ public class PersonDTO {
 
     public void setIsActive(Boolean isActive) {
         this.isActive = isActive;
+    }
+
+    public PersonStatusEnum getPersonStatusEnum() {
+        return personStatusEnum;
+    }
+
+    public void setPersonStatusEnum(PersonStatusEnum personStatusEnum) {
+        this.personStatusEnum = personStatusEnum;
     }
 }

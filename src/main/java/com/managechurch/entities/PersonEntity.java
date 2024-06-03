@@ -6,7 +6,8 @@ import java.util.stream.Collectors;
 import org.hibernate.annotations.DynamicInsert;
 
 import com.managechurch.dto.PersonDTO;
-import com.managechurch.helpers.GenderEnum;
+import com.managechurch.helpers.enums.GenderEnum;
+import com.managechurch.helpers.enums.PersonStatusEnum;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -39,6 +40,10 @@ public class PersonEntity {
     @Column(name = "gender", length = 6, nullable = false)
     private GenderEnum gender;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "gender", length = 6, nullable = false, columnDefinition = "varchar(15) default 'VISITOR'")
+    private PersonStatusEnum personStatusEnum;
+
     @Column(name = "phone", length = 20)
     private String phone;
 
@@ -59,6 +64,7 @@ public class PersonEntity {
         this.phone = personDTO.getPhone();
         this.email = personDTO.getEmail();
         this.isActive = personDTO.getIsActive();
+        this.personStatusEnum = personDTO.getPersonStatusEnum();
     }
 
     // Getters and Setters
@@ -126,6 +132,14 @@ public class PersonEntity {
 
         return personDtos;
 
+    }
+
+    public PersonStatusEnum getPersonStatusEnum() {
+        return personStatusEnum;
+    }
+
+    public void setPersonStatusEnum(PersonStatusEnum personStatusEnum) {
+        this.personStatusEnum = personStatusEnum;
     }
 
 }

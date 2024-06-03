@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.managechurch.dto.ItemWorshipDTO;
 import com.managechurch.dto.ResponseDTO;
 import com.managechurch.entities.ItemWorshipEntity;
-import com.managechurch.helpers.ResponseStatusEnum;
+import com.managechurch.helpers.enums.ResponseStatusEnum;
 import com.managechurch.mapper.ItemWorshipMapper;
 import com.managechurch.repositories.ItemWorshipRepository;
 import com.managechurch.services.exceptions.DataItegrityException;

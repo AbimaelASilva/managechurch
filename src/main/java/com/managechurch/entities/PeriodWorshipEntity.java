@@ -11,9 +11,12 @@ import com.managechurch.dto.PeriodWorshipDTO;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -33,7 +36,14 @@ public class PeriodWorshipEntity {
     @Column(name = "description", length = 256)
     private String description;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    private WorshipEntity worshipEntity;
+
+    // https://www.youtube.com/watch?v=Nb4uxLxdvxo
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "periodWorship") 
+    // O joinColumn é vai gerar lá na tabela PeriodWorship a coluna com nome
+    // "periods_worship_id"
+   // @JoinColumn(name = "periods_worship_id") pode gerar o projeto N+1
     private List<ItemWorshipEntity> itemsWorship;
 
     public PeriodWorshipEntity() {
@@ -49,7 +59,7 @@ public class PeriodWorshipEntity {
         this.id = periodWorshipDTO.getId();
         this.name = periodWorshipDTO.getName();
         this.description = periodWorshipDTO.getDescription();
-        this.itemsWorship = convertDtoToEntityList(periodWorshipDTO.getItemsWorship()) ;
+        this.itemsWorship = convertDtoToEntityList(periodWorshipDTO.getItemsWorship());
 
     }
 
