@@ -20,6 +20,8 @@ public class MinistryDTO {
         this.description = description;
     }
 
+    //https://www.youtube.com/watch?v=ninjPTQjNSI
+    //No minuto 7:25 tem exemplo de como converter uma entidade para um DTO. O Spring Boot faz isso automaticamente
     public MinistryDTO(MinistryEntity ministryEntity) {
         this.id = ministryEntity.getId();
         this.name = ministryEntity.getName();

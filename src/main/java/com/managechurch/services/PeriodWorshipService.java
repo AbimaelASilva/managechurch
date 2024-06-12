@@ -11,7 +11,7 @@ import com.managechurch.dto.PeriodWorshipDTO;
 import com.managechurch.dto.ResponseDTO;
 import com.managechurch.entities.PeriodWorshipEntity;
 import com.managechurch.helpers.enums.ResponseStatusEnum;
-import com.managechurch.mapper.PeriodWorshipMapper;
+//import com.managechurch.mapper.PeriodWorshipMapper;
 import com.managechurch.repositories.PeriodWorshipRepository;
 import com.managechurch.services.exceptions.DataItegrityException;
 import com.managechurch.services.exceptions.EntityNotFoundException;
@@ -22,8 +22,8 @@ public class PeriodWorshipService {
     @Autowired
     private PeriodWorshipRepository periodRepository;
 
-    @Autowired
-    private PeriodWorshipMapper itemMapper;
+    // @Autowired
+    // private PeriodWorshipMapper itemMapper;
 
     public ResponseDTO create(PeriodWorshipDTO periodWorshipDTO) {
         try {
@@ -67,7 +67,7 @@ public class PeriodWorshipService {
         Optional<PeriodWorshipEntity> optionalList = periodRepository.findById(periodWorshipDTO.getId());
         if (optionalList.isPresent()) {
             PeriodWorshipEntity periodEntityToSave = optionalList.get();
-            itemMapper.updateEntityFromDto(periodWorshipDTO, periodEntityToSave);
+          //  itemMapper.updateEntityFromDto(periodWorshipDTO, periodEntityToSave);
             PeriodWorshipEntity savedItem = periodRepository.save(periodEntityToSave);
             return new ResponseDTO(ResponseStatusEnum.SUCCESS.name(), savedItem);
         } else {

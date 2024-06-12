@@ -29,11 +29,13 @@ public class PersonDTO {
     public PersonDTO() {
     }
 
+    //https://www.youtube.com/watch?v=ninjPTQjNSI
+    //No minuto 7:25 tem exemplo de como converter uma entidade para um DTO. O Spring Boot faz isso automaticamente
     public PersonDTO(PersonEntity personEntity) {
         this.id = personEntity.getId();
         this.name = personEntity.getName();
         this.birthDate = personEntity.getBirthDate();
-        this.gender = personEntity.getGender();
+       // this.gender = personEntity.getGender();
         this.phone = personEntity.getPhone();
         this.email = personEntity.getEmail();
         this.isActive = personEntity.getIsActive();

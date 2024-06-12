@@ -1,10 +1,12 @@
 package com.managechurch.entities;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.hibernate.annotations.DynamicInsert;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.managechurch.dto.ItemWorshipDTO;
 import com.managechurch.dto.PeriodWorshipDTO;
 
@@ -37,14 +39,21 @@ public class PeriodWorshipEntity {
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    private WorshipEntity worshipEntity;
+    @JoinColumn(name = "worship_id")
+    private WorshipEntity worship;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "periodWorship", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ItemWorshipEntity> itemsWorship;
 
     // https://www.youtube.com/watch?v=Nb4uxLxdvxo
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "periodWorship") 
+    // @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy =
+    // "periodWorship")
     // O joinColumn é vai gerar lá na tabela PeriodWorship a coluna com nome
     // "periods_worship_id"
-   // @JoinColumn(name = "periods_worship_id") pode gerar o projeto N+1
-    private List<ItemWorshipEntity> itemsWorship;
+    // @JoinColumn(name = "periods_worship_id") pode gerar o projeto N+1
+
+    // private List<ItemWorshipEntity> worship;
 
     public PeriodWorshipEntity() {
     }
@@ -59,7 +68,7 @@ public class PeriodWorshipEntity {
         this.id = periodWorshipDTO.getId();
         this.name = periodWorshipDTO.getName();
         this.description = periodWorshipDTO.getDescription();
-        this.itemsWorship = convertDtoToEntityList(periodWorshipDTO.getItemsWorship());
+       // this.worship = convertDtoToEntityList(periodWorshipDTO.getItemsWorship());
 
     }
 
@@ -87,13 +96,13 @@ public class PeriodWorshipEntity {
         this.description = description;
     }
 
-    public List<ItemWorshipEntity> getItems() {
-        return itemsWorship;
-    }
+    // public List<ItemWorshipEntity> getItems() {
+    // return worship;
+    // }
 
-    public void setItems(List<ItemWorshipEntity> items) {
-        this.itemsWorship = items;
-    }
+    // public void setItems(List<ItemWorshipEntity> items) {
+    // this.worship = items;
+    // }
 
     public List<PeriodWorshipDTO> convertPeriodToDtoList(List<PeriodWorshipEntity> list) {
         List<PeriodWorshipDTO> ministryDtos = list.stream()

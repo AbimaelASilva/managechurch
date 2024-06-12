@@ -33,10 +33,6 @@ public class ItemWorshipEntity {
     @Column(name = "description", length = 256)
     private String description;
 
-    // Aqui foi criado o periodWorship só para anotacar que Muitos ItensWorship e
-    // como parte da resolução do problema N+1
-    // pertecem a um PeriodWorship
-    // https://www.youtube.com/watch?v=Nb4uxLxdvxo minuto 19:39
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "periods_worship_id", nullable = false)
     private PeriodWorshipEntity periodWorship;

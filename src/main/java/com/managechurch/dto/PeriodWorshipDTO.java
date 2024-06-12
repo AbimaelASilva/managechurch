@@ -21,11 +21,14 @@ public class PeriodWorshipDTO {
         this.description = description;
         this.itemsWorship = itemsWorship;
     }
+
+    //https://www.youtube.com/watch?v=ninjPTQjNSI
+    //No minuto 7:25 tem exemplo de como converter uma entidade para um DTO. O Spring Boot faz isso automaticamente
     public PeriodWorshipDTO(PeriodWorshipEntity periodEntity) {
         this.id = periodEntity.getId();
         this.name = periodEntity.getName();
         this.description = periodEntity.getDescription();
-        this.itemsWorship = periodEntity.convertItemsToDtoList(periodEntity.getItems());
+       // this.itemsWorship = periodEntity.convertItemsToDtoList(periodEntity.getItems());
     }
 
 

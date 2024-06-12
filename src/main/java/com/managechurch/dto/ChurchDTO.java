@@ -23,11 +23,13 @@ public class ChurchDTO {
         this.worships = worships;
     }
 
+    //https://www.youtube.com/watch?v=ninjPTQjNSI
+    //No minuto 7:25 tem exemplo de como converter uma entidade para um DTO. O Spring Boot faz isso automaticamente
     public ChurchDTO(ChurchEntity churchEntity) {
         this.id = churchEntity.getId();
         this.name = churchEntity.getName();
         this.phone = churchEntity.getPhone();
-        this.worships = this.convertEntitToDtoList( churchEntity.getWorships());
+       // this.worships = this.convertEntitToDtoList( churchEntity.getWorships());
     }
 
     // Getters e Setters

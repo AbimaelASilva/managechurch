@@ -16,6 +16,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 import java.util.Date;
@@ -37,10 +39,6 @@ public class PersonEntity {
     private Date birthDate;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "gender", length = 6, nullable = false)
-    private GenderEnum gender;
-
-    @Enumerated(EnumType.STRING)
     @Column(name = "gender", length = 6, nullable = false, columnDefinition = "varchar(15) default 'VISITOR'")
     private PersonStatusEnum personStatusEnum;
 
@@ -53,6 +51,12 @@ public class PersonEntity {
     @Column(name = "is_active", nullable = false)
     private Boolean isActive;
 
+    //Muitas pessoas para uma igreja 
+    @ManyToOne 
+    // Com esta anotação, estou definindo uma coluna a mais, que será a chave estrangeira da church aqui na tabela person 
+    @JoinColumn(name = "church_id") 
+    private ChurchEntity church;
+
     public PersonEntity() {
     }
 
@@ -60,7 +64,6 @@ public class PersonEntity {
         this.id = personDTO.getId();
         this.name = personDTO.getName();
         this.birthDate = personDTO.getBirthDate();
-        this.gender = personDTO.getGender();
         this.phone = personDTO.getPhone();
         this.email = personDTO.getEmail();
         this.isActive = personDTO.getIsActive();
@@ -92,13 +95,8 @@ public class PersonEntity {
         this.birthDate = birthDate;
     }
 
-    public GenderEnum getGender() {
-        return this.gender;
-    }
 
-    public void setGender(GenderEnum gender) {
-        this.gender = gender;
-    }
+
 
     public String getPhone() {
         return phone;
@@ -140,6 +138,14 @@ public class PersonEntity {
 
     public void setPersonStatusEnum(PersonStatusEnum personStatusEnum) {
         this.personStatusEnum = personStatusEnum;
+    }
+
+    public ChurchEntity getChurch() {
+        return church;
+    }
+
+    public void setChurch(ChurchEntity churchEntity) {
+        this.church = churchEntity;
     }
 
 }

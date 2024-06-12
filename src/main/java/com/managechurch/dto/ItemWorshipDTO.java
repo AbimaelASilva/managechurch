@@ -19,6 +19,8 @@ public class ItemWorshipDTO {
         this.description = description;
     }
 
+    //https://www.youtube.com/watch?v=ninjPTQjNSI
+    //No minuto 7:25 tem exemplo de como converter uma entidade para um DTO. O Spring Boot faz isso automaticamente
     public ItemWorshipDTO(ItemWorshipEntity itensWorshipEntity) {
         this.id = itensWorshipEntity.getId();
         this.name = itensWorshipEntity.getName();

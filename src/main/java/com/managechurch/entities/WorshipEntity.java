@@ -2,6 +2,7 @@ package com.managechurch.entities;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -12,8 +13,10 @@ import jakarta.persistence.Table;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.managechurch.dto.PeriodWorshipDTO;
 import com.managechurch.dto.WorshipDTO;
 
@@ -28,12 +31,11 @@ public class WorshipEntity {
     private Date date;
 
     @ManyToOne
-    @JoinColumn(name = "church_id")
+    @JoinColumn(name = "church_id") // Nome da coluna para chav estrangeira da church
     private ChurchEntity church;
 
-    @OneToMany( cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "worship")
-    // O joinColumn é vai gerar lá na tabela PeriodWorship a coluna com nome "worship_id" 
-   // @JoinColumn(name = "worship_id")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "worship", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PeriodWorshipEntity> periods;
 
     public WorshipEntity(Integer id, String name, Date date, ChurchEntity church, List<PeriodWorshipEntity> periods) {
@@ -48,7 +50,7 @@ public class WorshipEntity {
         this.id = worshipDTO.getId();
         this.name = worshipDTO.getName();
         this.date = worshipDTO.getDate();
-        // this.church = worshipDTO.getChurchId();
+      //  this.church = worshipDTO.getChurchId();
         this.periods = this.convertDtoToEntityList(worshipDTO.getPeriods());
     }
 
@@ -89,11 +91,11 @@ public class WorshipEntity {
     }
 
     public List<PeriodWorshipEntity> getPeriods() {
-        return periods;
+    return periods;
     }
 
     public void setPeriods(List<PeriodWorshipEntity> periods) {
-        this.periods = periods;
+    this.periods = periods;
     }
 
     public List<PeriodWorshipEntity> convertDtoToEntityList(List<PeriodWorshipDTO> list) {

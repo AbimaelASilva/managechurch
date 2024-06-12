@@ -32,6 +32,8 @@ public class UserDTO {
         this.password = password;
     }
 
+    //https://www.youtube.com/watch?v=ninjPTQjNSI
+    //No minuto 7:25 tem exemplo de como converter uma entidade para um DTO. O Spring Boot faz isso automaticamente
     public UserDTO(UserEntity userEntity) {
         this.id = userEntity.getId();
         this.name = userEntity.getName();

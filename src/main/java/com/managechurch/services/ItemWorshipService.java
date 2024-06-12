@@ -16,6 +16,8 @@ import com.managechurch.repositories.ItemWorshipRepository;
 import com.managechurch.services.exceptions.DataItegrityException;
 import com.managechurch.services.exceptions.EntityNotFoundException;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class ItemWorshipService {
 
@@ -25,6 +27,9 @@ public class ItemWorshipService {
     @Autowired
     private ItemWorshipMapper itemMapper;
 
+    // Com a anotação @Transactional, se uma transação retornar erro, haverá um
+    // rollback da transação.
+    @Transactional
     public ResponseDTO create(ItemWorshipDTO item) {
         try {
             ItemWorshipEntity itemEntityToSave = new ItemWorshipEntity(item);
@@ -63,6 +68,9 @@ public class ItemWorshipService {
 
     // Tutorial abordando o uso da "Anotação @Mapper"
     // https://www.baeldung.com/spring-data-partial-update
+    // Com a anotação @Transactional, se uma transação retornar erro, haverá um
+    // rollback da transação.
+    @Transactional
     public ResponseDTO update(ItemWorshipDTO item) {
         Optional<ItemWorshipEntity> optionalItem = itemRepository.findById(item.getId());
         if (optionalItem.isPresent()) {
@@ -76,6 +84,9 @@ public class ItemWorshipService {
         }
     }
 
+    // Com a anotação @Transactional, se uma transação retornar erro, haverá um
+    // rollback da transação.
+    @Transactional
     public ResponseDTO delete(Integer id) {
         try {
             itemRepository.deleteById(id);
